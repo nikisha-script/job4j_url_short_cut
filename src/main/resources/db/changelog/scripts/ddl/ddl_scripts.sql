@@ -6,6 +6,7 @@ create table if not exists url (
     name text,
     login text,
     password text
+
 );
 
 --changeset nikishin:alter_url_add_unique_field
@@ -23,3 +24,4 @@ alter table url add column person_id int references persons(id);
 
 --changeset nikishin:alter_url_add_count
 alter table url add column count int;
+
