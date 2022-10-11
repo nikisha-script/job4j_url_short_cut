@@ -1,14 +1,17 @@
 package ru.job4j.url.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "persons")
-@Data
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 public class Person {
 
@@ -23,10 +26,23 @@ public class Person {
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    @ToString.Exclude
     private List<Url> urls;
 
-    public Person(String login, String password) {
-        this.login = login;
-        this.password = password;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+            return false;
+        }
+        Person person = (Person) o;
+        return id != null && Objects.equals(id, person.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

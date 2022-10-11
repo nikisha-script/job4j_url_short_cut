@@ -29,7 +29,6 @@ create database url;
 ```
     mvn clean install
     mvn spring-boot:run
-    mvn liquibase:update
 ```
 
 ## Работа с приложением

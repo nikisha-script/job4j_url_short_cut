@@ -9,6 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.job4j.url.entity.Person;
 import ru.job4j.url.entity.Url;
 import ru.job4j.url.exception.UrlNoValidException;
+import ru.job4j.url.jwt.Encypt;
 import ru.job4j.url.model.Site;
 import ru.job4j.url.model.Statistic;
 import ru.job4j.url.model.UrlDto;
@@ -31,6 +32,7 @@ public class UrlController {
 
     private final UrlService urlService;
     private final PersonService personService;
+    private final Encypt encypt;
 
     @GetMapping
     public List<Url> findAll() {
@@ -61,13 +63,15 @@ public class UrlController {
                     HttpStatus.BAD_REQUEST
             );
         }
-        String login = urlService.generateExecuteLogin(site.getSite());
-        String password = urlService.generatorExecutePassword(site.getSite().length());
-        urlService.saveOrUpdate(
-                new Url(site.getSite(), login, password, person.get(), 0)
-        );
+        String login = encypt.generateExecuteLogin(site.getSite());
+        Url rsl = new Url();
+        rsl.setName(site.getSite());
+        rsl.setCount(0);
+        rsl.setLogin(login);
+        rsl.setPerson(person.get());
+        urlService.saveOrUpdate(rsl);
         return new ResponseEntity<>(
-                new UrlDto(login, password, true),
+                new UrlDto(login, true),
                 HttpStatus.OK
         );
     }
@@ -93,7 +97,7 @@ public class UrlController {
         if (urlService.findByName(site.getSite()).isEmpty()) {
             throw new IllegalArgumentException("URL has not system");
         }
-        site.setSite(urlService.generateExecuteLogin(site.getSite()));
+        site.setSite(encypt.generateExecuteLogin(site.getSite()));
         return new ResponseEntity<>(
                 site,
                 HttpStatus.OK

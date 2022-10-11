@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import ru.job4j.url.jwt.Encypt;
 import ru.job4j.url.jwt.JWTAuthorizationFilter;
 import ru.job4j.url.jwt.JwtFilter;
 import ru.job4j.url.service.UserDetailsServiceImpl;
@@ -61,6 +62,11 @@ public class SecurityJwt extends WebSecurityConfigurerAdapter {
         authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
         authenticationProvider.setUserDetailsService(userDetailsService);
         return authenticationProvider;
+    }
+
+    @Bean
+    public Encypt encypt() {
+        return new Encypt();
     }
 
 }
