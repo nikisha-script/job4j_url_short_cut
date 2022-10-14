@@ -1,10 +1,13 @@
 package ru.job4j.url.jwt;
 
+import org.springframework.stereotype.Component;
+
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ThreadLocalRandom;
 
+@Component
 public class Encypt {
 
     private final ThreadLocalRandom randomNumber = ThreadLocalRandom.current();

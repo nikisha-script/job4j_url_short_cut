@@ -10,14 +10,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import ru.job4j.url.jwt.Encypt;
 import ru.job4j.url.jwt.JWTAuthorizationFilter;
 import ru.job4j.url.jwt.JwtFilter;
-import ru.job4j.url.service.UserDetailsServiceImpl;
+import ru.job4j.url.service.SiteService;
 
 import static ru.job4j.url.jwt.JwtFilter.*;
 
@@ -26,16 +25,15 @@ import static ru.job4j.url.jwt.JwtFilter.*;
 @RequiredArgsConstructor
 public class SecurityJwt extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsServiceImpl userDetailsService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final SiteService userDetailsService;
+    private final PasswordEncoder bCryptPasswordEncoder;
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
-                /*.antMatchers(HttpMethod.POST, REGISTRATION_SITE).permitAll()*/
+                .antMatchers(HttpMethod.POST, REGISTRATION_SITE).permitAll()
                 .antMatchers(HttpMethod.GET, REDIRECT_TO_URL).permitAll()
-                .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtFilter(authenticationManager()))
@@ -62,11 +60,6 @@ public class SecurityJwt extends WebSecurityConfigurerAdapter {
         authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
         authenticationProvider.setUserDetailsService(userDetailsService);
         return authenticationProvider;
-    }
-
-    @Bean
-    public Encypt encypt() {
-        return new Encypt();
     }
 
 }

@@ -1,6 +1,9 @@
 package ru.job4j.url.entity;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -8,26 +11,22 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "persons")
+@Table(name = "sites")
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-public class Person {
+public class Site {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "login")
     private String login;
-
-    @Column(name = "password")
     private String password;
+    private String site;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
-    @ToString.Exclude
-    private List<Url> urls;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Link> links;
 
     @Override
     public boolean equals(Object o) {
@@ -37,8 +36,8 @@ public class Person {
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
-        Person person = (Person) o;
-        return id != null && Objects.equals(id, person.id);
+        Site url = (Site) o;
+        return id != null && Objects.equals(id, url.id);
     }
 
     @Override

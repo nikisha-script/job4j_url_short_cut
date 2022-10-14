@@ -8,10 +8,12 @@ import lombok.NoArgsConstructor;
 public class UrlDto {
 
     private String login;
+    private String password;
     private Boolean isValid;
 
-    public UrlDto(String login, Boolean isValid) {
+    public UrlDto(String login, String password, Boolean isValid) {
         this.login = login;
+        this.password = password;
         this.isValid = isValid;
     }
 

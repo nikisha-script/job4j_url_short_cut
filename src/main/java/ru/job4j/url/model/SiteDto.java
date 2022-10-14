@@ -5,11 +5,11 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Site {
+public class SiteDto {
 
     private String site;
 
-    public Site(String site) {
+    public SiteDto(String site) {
         this.site = site;
     }
 }

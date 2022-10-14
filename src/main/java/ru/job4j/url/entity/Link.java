@@ -1,6 +1,5 @@
 package ru.job4j.url.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -8,24 +7,26 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "sites")
+@Table(name = "links")
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
-public class Url {
+@ToString
+public class Link {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-    private String name;
-    private String login;
-    private Integer count;
 
-    @ManyToOne()
-    @JoinColumn(name = "person_id")
-    @JsonIgnore
-    private Person person;
+    @Column(name = "url")
+    private String url;
+
+    @Column(name = "total")
+    private Integer total;
+
+    @Column(name = "code")
+    private String code;
 
     @Override
     public boolean equals(Object o) {
@@ -35,8 +36,8 @@ public class Url {
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
-        Url url = (Url) o;
-        return id != null && Objects.equals(id, url.id);
+        Link link = (Link) o;
+        return id != null && Objects.equals(id, link.id);
     }
 
     @Override

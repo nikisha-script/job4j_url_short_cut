@@ -10,7 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import ru.job4j.url.entity.Person;
+import ru.job4j.url.entity.Site;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -29,7 +29,6 @@ public class JwtFilter extends UsernamePasswordAuthenticationFilter {
     public static final String HEADER_STRING = "Authorization";
     public static final String REGISTRATION_SITE = "/api/v1/registration";
     public static final String REDIRECT_TO_URL = "/redirect/**";
-    public static final String SIGN_UP_URL = "/users/sign-up";
 
     private final AuthenticationManager auth;
 
@@ -44,11 +43,11 @@ public class JwtFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
         try {
-            Person person = new ObjectMapper().readValue(request.getInputStream(), Person.class);
+            Site site = new ObjectMapper().readValue(request.getInputStream(), Site.class);
             return auth.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            person.getLogin(),
-                            person.getPassword(),
+                            site.getLogin(),
+                            site.getPassword(),
                             new ArrayList<>()
                     )
             );
