@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.job4j.url.entity.Site;
+import ru.job4j.url.model.Site;
 import ru.job4j.url.repository.SiteRepository;
 
 import java.util.List;

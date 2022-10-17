@@ -1,4 +1,4 @@
-package ru.job4j.url.entity;
+package ru.job4j.url.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,15 +33,17 @@ public class Site {
         if (this == o) {
             return true;
         }
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Site url = (Site) o;
-        return id != null && Objects.equals(id, url.id);
+
+        Site site = (Site) o;
+
+        return Objects.equals(id, site.id);
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return id != null ? id.hashCode() : 0;
     }
 }

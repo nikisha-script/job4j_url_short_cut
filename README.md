@@ -17,6 +17,7 @@
 
 - Java 17
 - Apache Maven 3.x
+- PostgreSQL 14
 
 ## Запуск приложения
 

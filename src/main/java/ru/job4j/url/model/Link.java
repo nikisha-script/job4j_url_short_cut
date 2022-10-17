@@ -1,4 +1,4 @@
-package ru.job4j.url.entity;
+package ru.job4j.url.model;
 
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -33,15 +33,17 @@ public class Link {
         if (this == o) {
             return true;
         }
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
+
         Link link = (Link) o;
-        return id != null && Objects.equals(id, link.id);
+
+        return Objects.equals(id, link.id);
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return id != null ? id.hashCode() : 0;
     }
 }

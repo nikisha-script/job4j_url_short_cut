@@ -1,4 +1,4 @@
-package ru.job4j.url.model;
+package ru.job4j.url.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
