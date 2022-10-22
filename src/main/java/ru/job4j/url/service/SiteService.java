@@ -10,6 +10,7 @@ import ru.job4j.url.model.Site;
 import ru.job4j.url.repository.SiteRepository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static java.util.Collections.emptyList;
@@ -20,8 +21,8 @@ public class SiteService implements UserDetailsService {
 
     private final SiteRepository siteRepository;
 
-    public Site saveOrUpdate(Site url) {
-        return siteRepository.save(url);
+    public void saveOrUpdate(Site url) {
+        siteRepository.save(url);
     }
 
     public Optional<Site> findById(Long id) {
@@ -29,7 +30,9 @@ public class SiteService implements UserDetailsService {
     }
 
     public void delete(Long id) {
-        siteRepository.delete(findById(id).get());
+        siteRepository.delete(findById(id).orElseThrow(() -> {
+            throw new NoSuchElementException("Site is not found");
+        }));
     }
 
     public List<Site> findAllUrl() {

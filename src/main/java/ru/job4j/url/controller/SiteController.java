@@ -77,7 +77,9 @@ public class SiteController {
 
     @PostMapping("/add-link-for-site")
     public ResponseEntity<Link> saveLink(@RequestBody LinkDto linkDto) {
-        Site site = siteService.findBySite(linkDto.getUrl()).get();
+        Site site = siteService.findBySite(linkDto.getUrl()).orElseThrow(() -> {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Site is not found");
+        });
         Link rsl = new Link();
         rsl.setUrl(linkDto.getUrl());
         rsl.setTotal(0);

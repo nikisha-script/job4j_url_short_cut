@@ -46,6 +46,11 @@ create database url;
 - `DELETE /api/v1/{id}` - удаляет зарегистрированную ссылку по id.
 - `POST /api/v1/registration` - регистрирует ссылку с уникальным кодом.
 
+## Контакты
+
+email: danya.nikisha@mail.ru
+
+
 
 
 

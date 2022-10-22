@@ -17,12 +17,8 @@ public class LinkService {
         return linkRepository.save(link);
     }
 
-    public Optional<Link> findByUrl(String url) {
-        return linkRepository.findByUrl(url);
-    }
-
-    public Optional<Link> findByCode(String url) {
-        return linkRepository.findByCode(url);
+    public Optional<Link> findByCode(String code) {
+        return linkRepository.findByCode(code);
     }
 
     public void incrementViews(String code) {

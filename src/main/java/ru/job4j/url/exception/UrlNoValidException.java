@@ -5,4 +5,5 @@ public class UrlNoValidException extends RuntimeException {
     public UrlNoValidException(String message) {
         super(message);
     }
+
 }
