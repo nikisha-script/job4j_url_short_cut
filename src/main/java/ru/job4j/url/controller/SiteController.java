@@ -3,17 +3,15 @@ package ru.job4j.url.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import ru.job4j.url.model.Link;
-import ru.job4j.url.model.Site;
-import ru.job4j.url.exception.UrlNoValidException;
-import ru.job4j.url.jwt.Encypt;
 import ru.job4j.url.dto.LinkDto;
 import ru.job4j.url.dto.SiteDto;
 import ru.job4j.url.dto.Statistic;
 import ru.job4j.url.dto.UrlDto;
+import ru.job4j.url.exception.UrlNoValidException;
+import ru.job4j.url.model.Link;
+import ru.job4j.url.model.Site;
 import ru.job4j.url.service.LinkService;
 import ru.job4j.url.service.SiteService;
 
@@ -23,7 +21,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,8 +29,6 @@ public class SiteController {
 
     private final SiteService siteService;
     private final LinkService linkService;
-    private final PasswordEncoder encoder;
-    private final Encypt encypt;
 
     @GetMapping
     public List<Site> findAll() {
@@ -62,15 +57,12 @@ public class SiteController {
                     HttpStatus.BAD_REQUEST
             );
         }
-        String login = encypt.generateExecuteLogin(siteDto.getSite());
-        String password = encypt.generatorExecutePassword(siteDto.getSite().length());
         Site rsl = new Site();
         rsl.setSite(siteDto.getSite());
-        rsl.setLogin(login);
-        rsl.setPassword(encoder.encode(password));
-        siteService.saveOrUpdate(rsl);
+        rsl.setLogin(siteDto.getSite());
+        Site saveRsl = siteService.saveOrUpdate(rsl);
         return new ResponseEntity<>(
-                new UrlDto(login, password, true),
+                new UrlDto(saveRsl.getLogin(), saveRsl.getPassword(), true),
                 HttpStatus.OK
         );
     }
@@ -95,10 +87,7 @@ public class SiteController {
 
     @GetMapping("/statistic")
     public List<Statistic> statistic() {
-        return siteService
-                .findAllUrl().stream()
-                .flatMap(e -> e.getLinks().stream().map(l -> new Statistic(l.getUrl(), l.getTotal())))
-                .collect(Collectors.toList());
+        return siteService.statistic();
     }
 
     @GetMapping("/redirect/{code}")
