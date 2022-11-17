@@ -24,7 +24,7 @@ public class Site {
     private String password;
     private String site;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "site")
     private List<Link> links;
 
     @Override

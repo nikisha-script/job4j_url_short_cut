@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.job4j.url.dto.SiteDto;
 import ru.job4j.url.dto.Statistic;
 import ru.job4j.url.jwt.Encypt;
 import ru.job4j.url.model.Site;
@@ -27,12 +28,15 @@ public class SiteService implements UserDetailsService {
     private final PasswordEncoder encoder;
     private final Encypt encypt;
 
-    public Site saveOrUpdate(Site site) {
-        String login = encypt.generateExecuteLogin(site.getSite());
-        String password = encypt.generatorExecutePassword(site.getSite().length());
-        site.setLogin(login);
-        site.setPassword(encoder.encode(password));
-        return siteRepository.save(site);
+    public Site saveOrUpdate(SiteDto siteDto) {
+        Site rsl = new Site();
+        rsl.setSite(siteDto.getSite());
+        rsl.setLogin(siteDto.getSite());
+        String login = encypt.generateExecuteLogin(rsl.getSite());
+        String password = encypt.generatorExecutePassword(rsl.getSite().length());
+        rsl.setLogin(login);
+        rsl.setPassword(encoder.encode(password));
+        return siteRepository.save(rsl);
     }
 
     public Optional<Site> findById(Long id) {

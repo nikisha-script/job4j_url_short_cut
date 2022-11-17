@@ -57,10 +57,7 @@ public class SiteController {
                     HttpStatus.BAD_REQUEST
             );
         }
-        Site rsl = new Site();
-        rsl.setSite(siteDto.getSite());
-        rsl.setLogin(siteDto.getSite());
-        Site saveRsl = siteService.saveOrUpdate(rsl);
+        Site saveRsl = siteService.saveOrUpdate(siteDto);
         return new ResponseEntity<>(
                 new UrlDto(saveRsl.getLogin(), saveRsl.getPassword(), true),
                 HttpStatus.OK
@@ -72,15 +69,8 @@ public class SiteController {
         Site site = siteService.findBySite(linkDto.getUrl()).orElseThrow(() -> {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Site is not found");
         });
-        Link rsl = new Link();
-        rsl.setUrl(linkDto.getUrl());
-        rsl.setTotal(0);
-        rsl.setCode(site.getLogin());
-        Link saveLink = linkService.save(rsl);
-        site.getLinks().add(saveLink);
-        siteService.saveOrUpdate(site);
         return new ResponseEntity<>(
-                saveLink,
+                linkService.save(linkDto, site),
                 HttpStatus.OK
         );
     }

@@ -27,6 +27,10 @@ public class Link {
     @Column(name = "total")
     private Integer total;
 
+    @ManyToOne
+    @JoinColumn(name = "site_id")
+    private Site site;
+
     @Column(name = "code")
     private String code;
 
